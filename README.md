@@ -2,7 +2,7 @@
 
 > Виртуальная корпоративная почта в чёрно-белых тонах. Open Source. Свободна как птица.
 
-**Разработка:** [not.team](https://github.com/not-team)
+**Разработка:** [not.wteam](https://github.com/not-wteam)
 
 ## Особенности
 
