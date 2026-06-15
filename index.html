@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>not.mcompany · виртуальная корпоративная почта</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            font-family: 'Inter', -apple-system, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .demo-container {
+            width: 100%;
+            max-width: 1400px;
+        }
+        .demo-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .demo-header h1 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+        .demo-header p {
+            color: #888;
+            margin-top: 8px;
+        }
+        .demo-header a {
+            color: #aaa;
+        }
+        .badge {
+            display: inline-block;
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="demo-container">
+    <div class="demo-header">
+        <h1>not.mcompany</h1>
+        <p>виртуальная корпоративная почта · open source · MIT License</p>
+        <p style="font-size:0.8rem; margin-top:4px;">разработка: <strong>not.team</strong></p>
+        <div class="badge">⚡ полностью рабочий демо-стенд</div>
+    </div>
+    <div id="notMCompanyApp"></div>
+</div>
+
+<script src="src/not-mcompany.js"></script>
+<script>
+    // ============================================================
+    // Демо-конфигурация — вы можете менять что угодно, не трогая движок
+    // ============================================================
+    
+    const config = {
+        companyName: 'NOT.MCOMPANY',
+        currentUser: {
+            name: 'Алексей Волков',
+            role: 'Lead Developer',
+            email: 'alex@not.team'
+        },
+        employees: [
+            { name: 'Екатерина Михайлова', role: 'CEO', email: 'ceo@not.team', isBoss: true, avatar: 'ЕМ' },
+            { name: 'Дмитрий Соколов', role: 'CTO', email: 'dmitry@not.team', avatar: 'ДС' },
+            { name: 'Анна Белова', role: 'Head of HR', email: 'anna@not.team', avatar: 'АБ' },
+            { name: 'Игорь Петренко', role: 'Backend Architect', email: 'igor@not.team', avatar: 'ИП' },
+            { name: 'Мария Ковальчук', role: 'Frontend Lead', email: 'maria@not.team', avatar: 'МК' }
+        ],
+        initialMessages: [
+            {
+                id: 'demo1',
+                from: 'Екатерина Михайлова',
+                fromEmail: 'ceo@not.team',
+                to: 'ВСЕМ СОТРУДНИКАМ',
+                subject: '⚠️ ПРИКАЗ: Запуск not.mcompany',
+                body: 'Уважаемая команда!\n\nСегодня мы запускаем внутреннюю виртуальную почту. Все приказы от руководства будут приходить сюда. Просьба проверять почту ежедневно.\n\nС уважением,\nЕкатерина Михайлова',
+                date: new Date().toLocaleString(),
+                read: false,
+                isGlobal: true,
+                isOrder: true,
+                isBossOrder: true
+            },
+            {
+                id: 'demo2',
+                from: 'Анна Белова',
+                fromEmail: 'anna@not.team',
+                to: 'Алексей Волков',
+                subject: 'Документация по проекту',
+                body: 'Алексей, привет! Подготовь, пожалуйста, актуальную документацию по API до пятницы.\n\nСпасибо!',
+                date: new Date(Date.now() - 3600000).toLocaleString(),
+                read: false
+            },
+            {
+                id: 'demo3',
+                from: 'Дмитрий Соколов',
+                fromEmail: 'dmitry@not.team',
+                to: 'Алексей Волков',
+                subject: 'Ревью кода',
+                body: 'Привет! Не забудь заапрувить пулл-реквест с новым модулем. Жду твой комментарий.\n\nДмитрий',
+                date: new Date(Date.now() - 86400000).toLocaleString(),
+                read: false
+            }
+        ],
+        onSendMessage: (msg) => {
+            console.log('[not.team] Письмо отправлено:', msg);
+            // Здесь можно добавить интеграцию с реальным бэкендом
+        }
+    };
+    
+    // Создаём экземпляр почты
+    const mail = new NotMCompany('notMCompanyApp', config);
+    
+    // Пример использования API движка (можно вызывать из консоли)
+    console.log('✅ not.mcompany готов! Доступные методы:', [
+        'mail.sendMessage()',
+        'mail.sendOrderToAll()',
+        'mail.addEmployee()',
+        'mail.getMessages()',
+        'mail.refresh()'
+    ]);
+    
+    // Пример: через 5 секунд добавим нового сотрудника (демо)
+    setTimeout(() => {
+        mail.addEmployee({
+            name: 'Ольга Громова',
+            role: 'QA Lead',
+            email: 'olga@not.team',
+            avatar: 'ОГ'
+        });
+        console.log('[not.team] Добавлен новый сотрудник: Ольга Громова');
+    }, 5000);
+</script>
+</body>
+</html>
